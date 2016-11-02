@@ -8,10 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		323FCDAD1DC6CC4400BF274E /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 323FCDAC1DC6CC4400BF274E /* background.png */; };
+		3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3242DC8A1DCA6A2900FF8FBA /* coin.atlas */; };
 		328D58021D9C2B32000319DC /* ambulance.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D57FE1D9C2B32000319DC /* ambulance.atlas */; };
 		328D58031D9C2B32000319DC /* cars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D57FF1D9C2B32000319DC /* cars.atlas */; };
 		328D58041D9C2B32000319DC /* police.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D58001D9C2B32000319DC /* police.atlas */; };
 		328D58051D9C2B32000319DC /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D58011D9C2B32000319DC /* player.atlas */; };
+		32A002811DCA595100D5DDB7 /* background_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 32A0027E1DCA595100D5DDB7 /* background_2.png */; };
+		32A002821DCA595100D5DDB7 /* background_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 32A0027F1DCA595100D5DDB7 /* background_3.png */; };
+		32A002831DCA595100D5DDB7 /* background_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 32A002801DCA595100D5DDB7 /* background_4.png */; };
 		32CB29EB1D88B11C0019DE0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CB29EA1D88B11C0019DE0B /* AppDelegate.swift */; };
 		32CB29EF1D88B11C0019DE0B /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CB29EE1D88B11C0019DE0B /* GameScene.swift */; };
 		32CB29F11D88B11C0019DE0B /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CB29F01D88B11C0019DE0B /* GameViewController.swift */; };
@@ -25,10 +29,14 @@
 
 /* Begin PBXFileReference section */
 		323FCDAC1DC6CC4400BF274E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		3242DC8A1DCA6A2900FF8FBA /* coin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = coin.atlas; sourceTree = "<group>"; };
 		328D57FE1D9C2B32000319DC /* ambulance.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ambulance.atlas; sourceTree = "<group>"; };
 		328D57FF1D9C2B32000319DC /* cars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cars.atlas; sourceTree = "<group>"; };
 		328D58001D9C2B32000319DC /* police.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = police.atlas; sourceTree = "<group>"; };
 		328D58011D9C2B32000319DC /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
+		32A0027E1DCA595100D5DDB7 /* background_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_2.png; sourceTree = "<group>"; };
+		32A0027F1DCA595100D5DDB7 /* background_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_3.png; sourceTree = "<group>"; };
+		32A002801DCA595100D5DDB7 /* background_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_4.png; sourceTree = "<group>"; };
 		32CB29E71D88B11C0019DE0B /* SpriteKitSecondApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteKitSecondApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CB29EA1D88B11C0019DE0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32CB29EE1D88B11C0019DE0B /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -88,7 +96,11 @@
 		32CB2A021D88B9EE0019DE0B /* SpriteKitSecondAppResources */ = {
 			isa = PBXGroup;
 			children = (
+				32A0027E1DCA595100D5DDB7 /* background_2.png */,
+				32A0027F1DCA595100D5DDB7 /* background_3.png */,
+				32A002801DCA595100D5DDB7 /* background_4.png */,
 				323FCDAC1DC6CC4400BF274E /* background.png */,
+				3242DC8A1DCA6A2900FF8FBA /* coin.atlas */,
 				328D57FE1D9C2B32000319DC /* ambulance.atlas */,
 				328D57FF1D9C2B32000319DC /* cars.atlas */,
 				328D58001D9C2B32000319DC /* police.atlas */,
@@ -169,15 +181,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				328D58051D9C2B32000319DC /* player.atlas in Resources */,
+				32A002821DCA595100D5DDB7 /* background_3.png in Resources */,
 				323FCDAD1DC6CC4400BF274E /* background.png in Resources */,
+				32A002811DCA595100D5DDB7 /* background_2.png in Resources */,
 				32CB2A071D88B9EE0019DE0B /* background-music-aac.caf in Resources */,
 				328D58031D9C2B32000319DC /* cars.atlas in Resources */,
 				32CB29F91D88B11C0019DE0B /* LaunchScreen.storyboard in Resources */,
 				328D58041D9C2B32000319DC /* police.atlas in Resources */,
 				328D58021D9C2B32000319DC /* ambulance.atlas in Resources */,
 				32CB29F61D88B11C0019DE0B /* Assets.xcassets in Resources */,
+				3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */,
 				32CB2A081D88B9EE0019DE0B /* pew-pew-lei.caf in Resources */,
 				32CB29F41D88B11C0019DE0B /* Main.storyboard in Resources */,
+				32A002831DCA595100D5DDB7 /* background_4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

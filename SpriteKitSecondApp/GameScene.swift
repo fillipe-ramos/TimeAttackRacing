@@ -53,14 +53,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: "Car")
     
     // Chance of being regular cars is higher
-    let arrayOfVehicles = ["ambulance", "police", "cars", "cars", "cars", "cars", "cars"]
+    let arrayOfVehicles = ["coin", "ambulance", "police", "cars", "cars", "cars", "cars", "cars"]
     
     var vehicleLane = 0
     var playerCoins = 0
     var actualSpeed = CGFloat()
     var vehicle = SKSpriteNode()
-    let background = SKSpriteNode(imageNamed: "background")
-    let background2 = SKSpriteNode(imageNamed: "background")
+    let background = SKSpriteNode(imageNamed: "background_4")
+    let background2 = SKSpriteNode(imageNamed: "background_4")
     let roadSpeed = CGFloat(10)
     let vehicleSpeed = 3
     
@@ -74,16 +74,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // 2 Add player on screen
-        addPlayer()
+        addPlayerWithLane(4)
         
         
         // 3 Add world
+        let message = "00:23:89"
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = message
+        label.fontSize = 16
+        label.fontColor = SKColor.blackColor()
+        label.horizontalAlignmentMode = .Right
+//        label.verticalAlignmentMode = .Top
+        label.position = CGPoint(x: size.width, y: size.height - 20)
+        label.zPosition = 100
+        addChild(label)
+        
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
-                SKAction.runBlock(addVehicle),
-                SKAction.waitForDuration(1.0)
+                SKAction.runBlock({self.addVehicleWithLanes(4)}),
+                SKAction.waitForDuration(0.5)
             ])
         ))
         
@@ -111,8 +122,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(background2)
     }
     
-    func addPlayer(){
-        player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.1)
+    func addPlayerWithLane(lane: Int){
+        if lane == 3{
+            player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.1)
+        }else{
+            player.position = CGPoint(x: size.width * 0.37, y: size.height * 0.1)
+        }
+        
         player.setScale(0.50)
         player.zPosition = 1
         addChild(player)
@@ -123,7 +139,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func addVehicleThreeLanes() {
+    
+    func addVehicleWithLanes(lane: Int) {
+        
+        //Picks NPC sprite and decide if need animation
         
         var imageAtlas = SKTextureAtlas()
         var imageArray = [SKTexture]()
@@ -134,12 +153,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vehicle = SKSpriteNode( imageNamed: imageAtlas.textureNames[randomVehicleIndex])
         
         // Creates Ambulance and Police Animations
-        if randomVehicleIndex == 0{
+        if randomVehicleIndex == 1{
             for i in 1...imageAtlas.textureNames.count{
                 let name = "Ambulance_\(i).png"
                 imageArray.append(SKTexture(imageNamed: name))
             }
-        }else if randomVehicleIndex == 1{
+        }else if randomVehicleIndex == 2{
             for i in 1...imageAtlas.textureNames.count{
                 let name = "Police_\(i).png"
                 imageArray.append(SKTexture(imageNamed: name))
@@ -148,10 +167,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Determine where to spawn the vehicle along the X axis
         // This spawns vehicle in one of the 3 lanes
-        let arrayForVehicle = [(size.width/4), ( size.width/2), (size.width*0.75)]
-        let randomIndex = Int(arc4random_uniform(UInt32(arrayForVehicle.count)))
+        var laneArrayForVehicle = []
+        if lane == 2{
+            laneArrayForVehicle = [(size.width*0.37), ( size.width*0.63)]
+        } else if lane == 3{
+            laneArrayForVehicle = [(size.width/4), ( size.width/2), (size.width*0.75)]
+        } else {
+            laneArrayForVehicle = [(size.width*0.12), ( size.width*0.37), (size.width*0.63), (size.width*0.88)]
+        }
+        let randomIndex = Int(arc4random_uniform(UInt32(laneArrayForVehicle.count)))
         
-        let actualX = arrayForVehicle[randomIndex]
+        let actualX = CGFloat(laneArrayForVehicle[randomIndex] as! NSNumber)
         
         // Position the vehicle slightly off-screen along the top edge,
         // and along a random position along the X axis as calculated above
@@ -172,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actionMove = SKAction.moveTo(CGPoint(x: actualX,  y: -vehicle.size.height/2), duration: NSTimeInterval(vehicleSpeed))
         let actionMoveDone = SKAction.removeFromParent()
         
-        
+        //Run NPC animation if needed
         if !imageArray.isEmpty {
             vehicle.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(imageArray, timePerFrame: 0.2)))
         }
@@ -214,7 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mainCar.removeFromParent()
         mainCarDestroyed += 1
         if (mainCarDestroyed > 0) {
-            addPlayer()
+            addPlayerWithLane(4)
         }
         
     }
