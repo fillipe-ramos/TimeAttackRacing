@@ -59,10 +59,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerCoins = 0
     var actualSpeed = CGFloat()
     var vehicle = SKSpriteNode()
-    let background = SKSpriteNode(imageNamed: "background_4")
-    let background2 = SKSpriteNode(imageNamed: "background_4")
+    let background = SKSpriteNode(imageNamed: "background_3")
+    let background2 = SKSpriteNode(imageNamed: "background_3")
     let roadSpeed = CGFloat(10)
     let vehicleSpeed = 3
+    let roadLanes = 3
     
     
     
@@ -74,11 +75,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // 2 Add player on screen
-        addPlayerWithLane(4)
+        addPlayerWithLane(roadLanes)
         
         
         // 3 Add world
-        let message = "00:23:89"
+        let message = "00:12:43"
         let label = SKLabelNode(fontNamed: "Chalkduster")
         label.text = message
         label.fontSize = 16
@@ -93,8 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
-                SKAction.runBlock({self.addVehicleWithLanes(4)}),
-                SKAction.waitForDuration(0.5)
+                SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
+                SKAction.waitForDuration(1)
             ])
         ))
         
@@ -150,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let randomVehicleIndex = Int(arc4random_uniform(UInt32(arrayOfVehicles.count)))
         imageAtlas = SKTextureAtlas(named: arrayOfVehicles[randomVehicleIndex])
         
-        vehicle = SKSpriteNode( imageNamed: imageAtlas.textureNames[randomVehicleIndex])
+        vehicle = SKSpriteNode( imageNamed: imageAtlas.textureNames[Int(arc4random_uniform(UInt32(imageAtlas.textureNames.count)))])
         
         // Creates Ambulance and Police Animations
         if randomVehicleIndex == 1{
@@ -240,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mainCar.removeFromParent()
         mainCarDestroyed += 1
         if (mainCarDestroyed > 0) {
-            addPlayerWithLane(4)
+            addPlayerWithLane(roadLanes)
         }
         
     }
