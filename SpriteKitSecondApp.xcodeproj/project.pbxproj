@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		323FCDAD1DC6CC4400BF274E /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 323FCDAC1DC6CC4400BF274E /* background.png */; };
 		3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3242DC8A1DCA6A2900FF8FBA /* coin.atlas */; };
+		3242DC8F1DCA974100FF8FBA /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242DC8E1DCA974100FF8FBA /* MainMenuScene.swift */; };
+		3242DC911DCAAAF400FF8FBA /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3242DC901DCAAAF400FF8FBA /* buttons.atlas */; };
+		3242DC931DCAC2E800FF8FBA /* ShopScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242DC921DCAC2E800FF8FBA /* ShopScene.swift */; };
 		328D58021D9C2B32000319DC /* ambulance.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D57FE1D9C2B32000319DC /* ambulance.atlas */; };
 		328D58031D9C2B32000319DC /* cars.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D57FF1D9C2B32000319DC /* cars.atlas */; };
 		328D58041D9C2B32000319DC /* police.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 328D58001D9C2B32000319DC /* police.atlas */; };
@@ -30,6 +33,9 @@
 /* Begin PBXFileReference section */
 		323FCDAC1DC6CC4400BF274E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		3242DC8A1DCA6A2900FF8FBA /* coin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = coin.atlas; sourceTree = "<group>"; };
+		3242DC8E1DCA974100FF8FBA /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		3242DC901DCAAAF400FF8FBA /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
+		3242DC921DCAC2E800FF8FBA /* ShopScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopScene.swift; sourceTree = "<group>"; };
 		328D57FE1D9C2B32000319DC /* ambulance.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ambulance.atlas; sourceTree = "<group>"; };
 		328D57FF1D9C2B32000319DC /* cars.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cars.atlas; sourceTree = "<group>"; };
 		328D58001D9C2B32000319DC /* police.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = police.atlas; sourceTree = "<group>"; };
@@ -83,6 +89,8 @@
 			children = (
 				32CB29EA1D88B11C0019DE0B /* AppDelegate.swift */,
 				32CB29EE1D88B11C0019DE0B /* GameScene.swift */,
+				3242DC8E1DCA974100FF8FBA /* MainMenuScene.swift */,
+				3242DC921DCAC2E800FF8FBA /* ShopScene.swift */,
 				32CB29F01D88B11C0019DE0B /* GameViewController.swift */,
 				32CB2A0A1D88C2820019DE0B /* GameOverScene.swift */,
 				32CB29F21D88B11C0019DE0B /* Main.storyboard */,
@@ -100,6 +108,7 @@
 				32A0027F1DCA595100D5DDB7 /* background_3.png */,
 				32A002801DCA595100D5DDB7 /* background_4.png */,
 				323FCDAC1DC6CC4400BF274E /* background.png */,
+				3242DC901DCAAAF400FF8FBA /* buttons.atlas */,
 				3242DC8A1DCA6A2900FF8FBA /* coin.atlas */,
 				328D57FE1D9C2B32000319DC /* ambulance.atlas */,
 				328D57FF1D9C2B32000319DC /* cars.atlas */,
@@ -193,6 +202,7 @@
 				3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */,
 				32CB2A081D88B9EE0019DE0B /* pew-pew-lei.caf in Resources */,
 				32CB29F41D88B11C0019DE0B /* Main.storyboard in Resources */,
+				3242DC911DCAAAF400FF8FBA /* buttons.atlas in Resources */,
 				32A002831DCA595100D5DDB7 /* background_4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,6 +214,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3242DC931DCAC2E800FF8FBA /* ShopScene.swift in Sources */,
+				3242DC8F1DCA974100FF8FBA /* MainMenuScene.swift in Sources */,
 				32CB29EF1D88B11C0019DE0B /* GameScene.swift in Sources */,
 				32CB29F11D88B11C0019DE0B /* GameViewController.swift in Sources */,
 				32CB2A0B1D88C2820019DE0B /* GameOverScene.swift in Sources */,
