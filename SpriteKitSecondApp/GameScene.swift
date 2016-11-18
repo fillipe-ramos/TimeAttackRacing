@@ -197,13 +197,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create the actions
         let actionMove = SKAction.moveTo(CGPoint(x: actualX,  y: -vehicle.size.height/2), duration: NSTimeInterval(vehicleSpeed))
+        let loseAction = SKAction.runBlock({
+            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+            let gameOverScene = GameOverScene(size: self.size, won: true)
+            self.view?.presentScene(gameOverScene, transition: reveal)
+            })
         let actionMoveDone = SKAction.removeFromParent()
         
         //Run NPC animation if needed
         if !imageArray.isEmpty {
             vehicle.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(imageArray, timePerFrame: 0.2)))
         }
-        vehicle.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        vehicle.runAction(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
         
     }
     

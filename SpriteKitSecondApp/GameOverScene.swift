@@ -16,7 +16,7 @@ class GameOverScene: SKScene {
         super.init(size: size)
         
         // 1
-        backgroundColor = SKColor.whiteColor()
+        backgroundColor = SKColor.lightGrayColor()
         
         // 2
         let message = won ? "You Won!" : "You Lose :["
@@ -26,8 +26,38 @@ class GameOverScene: SKScene {
         label.text = message
         label.fontSize = 40
         label.fontColor = SKColor.blackColor()
-        label.position = CGPoint(x: size.width/2, y: size.height/2)
+        label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
         addChild(label)
+        
+        let message2 = "Level Reward: 100"
+        
+        // 3
+        let label2 = SKLabelNode(fontNamed: "Chalkduster")
+        label2.text = message2
+        label2.fontSize = 24
+        label2.fontColor = SKColor.blackColor()
+        label2.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 100)
+        addChild(label2)
+        
+        let message3 = "Catched Coins: 17"
+        
+        // 3
+        let label3 = SKLabelNode(fontNamed: "Chalkduster")
+        label3.text = message3
+        label3.fontSize = 24
+        label3.fontColor = SKColor.blackColor()
+        label3.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+        addChild(label3)
+        
+        let message4 = "Total: 117 Coins"
+        
+        // 3
+        let label4 = SKLabelNode(fontNamed: "Chalkduster")
+        label4.text = message4
+        label4.fontSize = 24
+        label4.fontColor = SKColor.blackColor()
+        label4.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) - 100)
+        addChild(label4)
         
         // 4
         runAction(SKAction.sequence([

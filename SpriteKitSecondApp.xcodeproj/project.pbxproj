@@ -28,6 +28,7 @@
 		32CB2A071D88B9EE0019DE0B /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 32CB2A041D88B9EE0019DE0B /* background-music-aac.caf */; };
 		32CB2A081D88B9EE0019DE0B /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 32CB2A051D88B9EE0019DE0B /* pew-pew-lei.caf */; };
 		32CB2A0B1D88C2820019DE0B /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CB2A0A1D88C2820019DE0B /* GameOverScene.swift */; };
+		32EF63BF1DD511D600BDE782 /* LevelMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EF63BE1DD511D600BDE782 /* LevelMenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		32CB2A041D88B9EE0019DE0B /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		32CB2A051D88B9EE0019DE0B /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 		32CB2A0A1D88C2820019DE0B /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		32EF63BE1DD511D600BDE782 /* LevelMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelMenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				3242DC921DCAC2E800FF8FBA /* ShopScene.swift */,
 				32CB29F01D88B11C0019DE0B /* GameViewController.swift */,
 				32CB2A0A1D88C2820019DE0B /* GameOverScene.swift */,
+				32EF63BE1DD511D600BDE782 /* LevelMenuScene.swift */,
 				32CB29F21D88B11C0019DE0B /* Main.storyboard */,
 				32CB29F51D88B11C0019DE0B /* Assets.xcassets */,
 				32CB29F71D88B11C0019DE0B /* LaunchScreen.storyboard */,
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32EF63BF1DD511D600BDE782 /* LevelMenuScene.swift in Sources */,
 				3242DC931DCAC2E800FF8FBA /* ShopScene.swift in Sources */,
 				3242DC8F1DCA974100FF8FBA /* MainMenuScene.swift in Sources */,
 				32CB29EF1D88B11C0019DE0B /* GameScene.swift in Sources */,
@@ -335,6 +339,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4A73NAQXDH;
 				INFOPLIST_FILE = SpriteKitSecondApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -349,6 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4A73NAQXDH;
 				INFOPLIST_FILE = SpriteKitSecondApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

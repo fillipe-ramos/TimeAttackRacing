@@ -42,7 +42,11 @@ class MainMenuScene: SKScene {
             let location = touch.locationInNode(self)
             
             if playButton.containsPoint(location){
-                beginGame()
+                levelMenu()
+            }
+            
+            if shopButton.containsPoint(location){
+                openShop()
             }
             
         }
@@ -61,9 +65,15 @@ class MainMenuScene: SKScene {
         addChild(label)
     }
     
-    func beginGame(){
-        let beginGameScene = GameScene(size: size)
-        view?.presentScene(beginGameScene)
+    func levelMenu(){
+        let levelMenuScene = LevelMenuScene(size: size)
+        view?.presentScene(levelMenuScene)
     }
+    
+    func openShop(){
+        let shopScene = ShopScene(size: size)
+        view?.presentScene(shopScene)
+    }
+    
     
 }
