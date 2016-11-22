@@ -45,6 +45,7 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let MainCar   : UInt32 = 0x1 << 1      // 1
     static let Vehicle   : UInt32 = 0x1 << 2      // 2
+    static let Coin      : UInt32 = 0x1 << 3      // 3
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -59,17 +60,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerCoins = 0
     var actualSpeed = CGFloat()
     var vehicle = SKSpriteNode()
-    let background = SKSpriteNode(imageNamed: "background_3")
-    let background2 = SKSpriteNode(imageNamed: "background_3")
-    let roadSpeed = CGFloat(10)
-    let vehicleSpeed = 3
-    let roadLanes = 3
-    
+    var background = SKSpriteNode()
+    var background2 = SKSpriteNode()
+    var roadSpeed = CGFloat(10)
+    var vehicleSpeed = 3.0
+    var roadLanes = 4
+    var levelReward = 60
+    var carLane = 2
+    var timerLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var time = NSTimeInterval(3600)
+    var coinsLabel = SKLabelNode(fontNamed: "Chalkduster")
     
     
     var mainCarDestroyed = 0
     
-    override func didMoveToView(view: SKView) {
+    init(size: CGSize, roadLanes_param: Int, levelReward_param: Int, time_param: NSTimeInterval,roadSpeed_param: CGFloat, vehicleSpeed_param: Double, background_param: String) {
+        super.init(size: size)
+
+
+        background = SKSpriteNode(imageNamed: background_param)
+        background2 = SKSpriteNode(imageNamed: background_param)
+        roadSpeed = roadSpeed_param
+        vehicleSpeed = vehicleSpeed_param
+        roadLanes = roadLanes_param
+        levelReward = levelReward_param
+        time = NSTimeInterval(time_param)
+        
         // 1 Add background
         addBackground()
         
@@ -78,17 +94,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addPlayerWithLane(roadLanes)
         
         
+        
         // 3 Add world
-        let message = "00:12:43"
-        let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = message
-        label.fontSize = 16
-        label.fontColor = SKColor.blackColor()
-        label.horizontalAlignmentMode = .Right
-//        label.verticalAlignmentMode = .Top
-        label.position = CGPoint(x: size.width, y: size.height - 20)
-        label.zPosition = 100
-        addChild(label)
+        showTimer()
+        
+        showPlayerCoins()
+        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -96,10 +107,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKAction.sequence([
                 SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
                 SKAction.waitForDuration(1)
-            ])
-        ))
+                ])
+            ))
+
         
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    override func didMoveToView(view: SKView) {
+//        // 1 Add background
+//        addBackground()
+//        
+//        
+//        // 2 Add player on screen
+//        addPlayerWithLane(roadLanes)
+//        
+//        
+//        
+//        // 3 Add world
+//        showTimer()
+//        
+//        showPlayerCoins()
+//        
+//        
+//        physicsWorld.gravity = CGVectorMake(0, 0)
+//        physicsWorld.contactDelegate = self
+//        runAction(SKAction.repeatActionForever(
+//            SKAction.sequence([
+//                SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
+//                SKAction.waitForDuration(1)
+//            ])
+//        ))
+//        
+//    }
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
@@ -124,11 +167,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addPlayerWithLane(lane: Int){
+        player.removeAllActions()
         if lane == 3{
             player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.1)
         }else{
             player.position = CGPoint(x: size.width * 0.37, y: size.height * 0.1)
         }
+        //When player gets destroyed
+        //Sets carLane back to default
+        carLane = 2
         
         player.setScale(0.50)
         player.zPosition = 1
@@ -191,24 +238,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         vehicle.physicsBody = SKPhysicsBody(rectangleOfSize: vehicle.size) // 1
         vehicle.physicsBody?.dynamic = true // 2
-        vehicle.physicsBody?.categoryBitMask = PhysicsCategory.Vehicle // 3
+        if randomVehicleIndex == 0 {
+            vehicle.physicsBody?.categoryBitMask = PhysicsCategory.Coin // 3
+        }else{
+            vehicle.physicsBody?.categoryBitMask = PhysicsCategory.Vehicle // 3
+        }
         vehicle.physicsBody?.contactTestBitMask = PhysicsCategory.MainCar // 4
         vehicle.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
         
         // Create the actions
         let actionMove = SKAction.moveTo(CGPoint(x: actualX,  y: -vehicle.size.height/2), duration: NSTimeInterval(vehicleSpeed))
-        let loseAction = SKAction.runBlock({
-            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: true)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-            })
+//        let loseAction = SKAction.runBlock({
+//            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+//            let gameOverScene = GameOverScene(size: self.size, won: true, coins: self.playerCoins, levelReward: self.levelReward)
+//            self.view?.presentScene(gameOverScene, transition: reveal)
+//            })
         let actionMoveDone = SKAction.removeFromParent()
         
         //Run NPC animation if needed
         if !imageArray.isEmpty {
             vehicle.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(imageArray, timePerFrame: 0.2)))
         }
-        vehicle.runAction(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
+        vehicle.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         
     }
     
@@ -220,19 +271,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)
         var actionMove = SKAction()
         
-        if player.position.x == size.width*0.75{
+        if roadLanes == 3{
             if touchLocation.x < size.width/2 {
-                actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
-            }
-        } else if player.position.x == size.width/2{
-            if touchLocation.x > size.width/2 {
-                actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.75), y: size.height * 0.1), duration: 0.2)
+                if carLane != 1{
+                    if carLane == 2{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/4), y: size.height * 0.1), duration: 0.2)
+                    } else{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
+                    }
+                    carLane = carLane-1
+                }
             } else {
-                actionMove = SKAction.moveTo(CGPoint(x: (size.width/4), y: size.height * 0.1), duration: 0.2)
+                if carLane != 3{
+                    if carLane == 2{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.75), y: size.height * 0.1), duration: 0.2)
+                    } else{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
+                    }
+                    carLane = carLane+1
+                }
             }
-        } else {
-            if touchLocation.x > size.width/2 {
-                actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
+        }else{
+            if roadLanes == 2{
+                if touchLocation.x < size.width/2 {
+                    if carLane == 3{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                        carLane = carLane-1
+                    }
+                } else {
+                    if carLane == 2{
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                        carLane = carLane+1
+                    }
+                }
+            }else {
+                if touchLocation.x < size.width/2 {
+                    if carLane != 1{
+                        if carLane == 2{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.12), y: size.height * 0.1), duration: 0.2)
+                        } else if carLane == 3{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                        } else if carLane == 4{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                        }
+                        carLane = carLane-1
+                    }
+                } else {
+                    if carLane != 4{
+                        if carLane == 1{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                        } else if carLane == 2{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                        } else if carLane == 3{
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.88), y: size.height * 0.1), duration: 0.2)
+                        }
+                        carLane = carLane+1
+                    }
+                }
             }
         }
     
@@ -254,6 +349,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func mainCarDidCollideWithCoin(coin:SKSpriteNode) {
         coin.removeFromParent()
         playerCoins = playerCoins + 1
+        coinsLabel.text = "Coins: \(playerCoins)"
+    }
+    
+    func showPlayerCoins(){
+        let message = "Coin: 0"
+        coinsLabel.text = message
+        coinsLabel.fontSize = 16
+        coinsLabel.fontColor = SKColor.blackColor()
+        coinsLabel.horizontalAlignmentMode = .Left
+        coinsLabel.position = CGPoint(x: 0, y: size.height - 20)
+        coinsLabel.zPosition = 100
+        addChild(coinsLabel)
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -273,8 +380,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Vehicle != 0)) {
             mainCarDidCollideWithVehicle(firstBody.node as! SKSpriteNode, mainCar: secondBody.node as! SKSpriteNode)
+        }else if ((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Coin != 0)) {
+            mainCarDidCollideWithCoin(secondBody.node as! SKSpriteNode)
         }
         
+        
+    }
+    
+    func showTimer(){
+        let message = "00:00:00"
+        timerLabel.text = message
+        timerLabel.fontSize = 16
+        timerLabel.fontColor = SKColor.blackColor()
+        timerLabel.horizontalAlignmentMode = .Right
+        timerLabel.position = CGPoint(x: size.width, y: size.height - 20)
+        timerLabel.zPosition = 100
+        addChild(timerLabel)
+    }
+    
+    func timerUpdate(){
+        time -= 1
+        timerLabel.text="\(stringFromTimeInterval(time))"
+        if time < 0 {
+            let loseAction = SKAction.runBlock({
+                let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+                let gameOverScene = GameOverScene(size: self.size, won: false, coins: self.playerCoins, levelReward: self.levelReward)
+                self.view?.presentScene(gameOverScene, transition: reveal)
+                })
+            let actionMoveDone = SKAction.removeFromParent()
+                
+            vehicle.runAction(SKAction.sequence([loseAction, actionMoveDone]))
+        }
     }
     
     func backgroundScrollUpdate(){
@@ -290,8 +427,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
     override func update(currentTime: CFTimeInterval) {
         backgroundScrollUpdate()
+        timerUpdate()
+    }
+    
+    func stringFromTimeInterval(interval:NSTimeInterval) -> NSString {
+        
+        let ti = NSInteger(interval)
+        
+        let seconds = ti % 60
+        let minutes = (ti / 60) % 60
+        let hours = (ti / 3600)
+        
+        return NSString(format: "%0.2d:%0.2d:%0.2d",hours,minutes,seconds)
     }
 }

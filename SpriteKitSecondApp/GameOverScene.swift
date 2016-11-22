@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    init(size: CGSize, won:Bool) {
+    init(size: CGSize, won:Bool, coins: Int, levelReward: Int) {
         
         super.init(size: size)
         
@@ -29,7 +29,7 @@ class GameOverScene: SKScene {
         label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
         addChild(label)
         
-        let message2 = "Level Reward: 100"
+        let message2 = "Level Reward: \(levelReward)"
         
         // 3
         let label2 = SKLabelNode(fontNamed: "Chalkduster")
@@ -39,7 +39,7 @@ class GameOverScene: SKScene {
         label2.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 100)
         addChild(label2)
         
-        let message3 = "Catched Coins: 17"
+        let message3 = "Catched Coins: \(coins)"
         
         // 3
         let label3 = SKLabelNode(fontNamed: "Chalkduster")
@@ -49,7 +49,7 @@ class GameOverScene: SKScene {
         label3.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         addChild(label3)
         
-        let message4 = "Total: 117 Coins"
+        let message4 = "Total: \(coins+levelReward) Coins"
         
         // 3
         let label4 = SKLabelNode(fontNamed: "Chalkduster")
@@ -65,7 +65,7 @@ class GameOverScene: SKScene {
             SKAction.runBlock() {
                 // 5
                 let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-                let scene = GameScene(size: size)
+                let scene = LevelMenuScene(size: size)
                 self.view?.presentScene(scene, transition:reveal)
             }
             ]))

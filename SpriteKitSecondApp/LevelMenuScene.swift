@@ -146,14 +146,40 @@ class LevelMenuScene: SKScene {
             let location = touch.locationInNode(self)
             
             if levelOne.containsPoint(location){
-                beginGame()
+                let ac = UIAlertController(title: "Hello!", message: "This is a test.", preferredStyle: .ActionSheet)
+                
+                let popover = ac.popoverPresentationController
+                popover?.sourceView = view
+                popover?.sourceRect = CGRect(x: 32, y: 32, width: 64, height: 64)
+                
+                 (ac, animated: true)
+                
+//                beginGame(2, levelReward_param: 10, time_param: 600,roadSpeed_param: 6, vehicleSpeed_param: 3, background_param: "background_2")
+            } else if levelTwo.containsPoint(location){
+                beginGame(3, levelReward_param: 15, time_param: 600,roadSpeed_param: 6, vehicleSpeed_param: 2.8, background_param: "background_3")
+            } else if levelThree.containsPoint(location){
+                beginGame(4, levelReward_param: 30, time_param: 600,roadSpeed_param: 7, vehicleSpeed_param: 2.6, background_param: "background_4")
+            } else if levelFour.containsPoint(location){
+                beginGame(2, levelReward_param: 50, time_param: 600,roadSpeed_param: 8, vehicleSpeed_param: 2.4, background_param: "background_2")
+            } else if levelFive.containsPoint(location){
+                beginGame(4, levelReward_param: 75, time_param: 600,roadSpeed_param: 9, vehicleSpeed_param: 2.2, background_param: "background_4")
+            } else if levelSix.containsPoint(location){
+                beginGame(3, levelReward_param: 120, time_param: 600,roadSpeed_param: 10, vehicleSpeed_param: 2, background_param: "background_3")
+            } else if levelSeven.containsPoint(location){
+                beginGame(4, levelReward_param: 155, time_param: 600,roadSpeed_param: 11, vehicleSpeed_param: 1.8, background_param: "background_4")
+            } else if levelEight.containsPoint(location){
+                beginGame(2, levelReward_param: 200, time_param: 600,roadSpeed_param: 12, vehicleSpeed_param: 1.6, background_param: "background_2")
+            } else if levelNine.containsPoint(location){
+                beginGame(3, levelReward_param: 250, time_param: 600,roadSpeed_param: 15, vehicleSpeed_param: 1.4, background_param: "background_3")
+            } else if levelTen.containsPoint(location){
+                beginGame(4, levelReward_param: 300, time_param: 600,roadSpeed_param: 20, vehicleSpeed_param: 1.2, background_param: "background_4")
             }
         }
     }
     
     //MARK: Game Function
-    func beginGame(){
-        let beginGameScene = GameScene(size: size)
+    func beginGame(roadLanes_param: Int, levelReward_param: Int, time_param: NSTimeInterval,roadSpeed_param: CGFloat, vehicleSpeed_param: Double, background_param: String){
+        let beginGameScene = GameScene(size: size, roadLanes_param: roadLanes_param, levelReward_param: levelReward_param, time_param: time_param,roadSpeed_param: roadSpeed_param, vehicleSpeed_param: vehicleSpeed_param, background_param: background_param)
         view?.presentScene(beginGameScene)
     }
     
