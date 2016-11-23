@@ -64,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var background2 = SKSpriteNode()
     var roadSpeed = CGFloat(10)
     var vehicleSpeed = 3.0
+    var vehicleChangeLaneSpeed = 0.3
     var roadLanes = 4
     var levelReward = 60
     var carLane = 2
@@ -275,18 +276,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if touchLocation.x < size.width/2 {
                 if carLane != 1{
                     if carLane == 2{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/4), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/4), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                     } else{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                     }
                     carLane = carLane-1
                 }
             } else {
                 if carLane != 3{
                     if carLane == 2{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.75), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.75), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                     } else{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width/2), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                     }
                     carLane = carLane+1
                 }
@@ -295,12 +296,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if roadLanes == 2{
                 if touchLocation.x < size.width/2 {
                     if carLane == 3{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         carLane = carLane-1
                     }
                 } else {
                     if carLane == 2{
-                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                        actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         carLane = carLane+1
                     }
                 }
@@ -308,22 +309,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if touchLocation.x < size.width/2 {
                     if carLane != 1{
                         if carLane == 2{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.12), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.12), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         } else if carLane == 3{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         } else if carLane == 4{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         }
                         carLane = carLane-1
                     }
                 } else {
                     if carLane != 4{
                         if carLane == 1{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.37), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         } else if carLane == 2{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.63), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         } else if carLane == 3{
-                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.88), y: size.height * 0.1), duration: 0.2)
+                            actionMove = SKAction.moveTo(CGPoint(x: (size.width*0.88), y: size.height * 0.1), duration: vehicleChangeLaneSpeed)
                         }
                         carLane = carLane+1
                     }

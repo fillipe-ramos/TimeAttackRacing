@@ -199,8 +199,9 @@ class LevelMenuScene: SKScene {
     }
     
     func backToMenu(){
+        let reveal = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5)
         let menuScene = MainMenuScene(size: size)
-        view?.presentScene(menuScene)
+        view?.presentScene(menuScene, transition: reveal)
     }
     
     func drawDots(){

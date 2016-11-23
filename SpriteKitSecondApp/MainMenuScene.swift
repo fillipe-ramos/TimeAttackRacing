@@ -59,7 +59,6 @@ class MainMenuScene: SKScene {
         label.fontSize = 32
         label.fontColor = SKColor.blackColor()
         label.horizontalAlignmentMode = .Center
-        //        label.verticalAlignmentMode = .Top
         label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
         label.zPosition = 100
         addChild(label)
@@ -90,8 +89,9 @@ class MainMenuScene: SKScene {
     }
     
     func openShop(){
+        let reveal = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         let shopScene = ShopScene(size: size)
-        view?.presentScene(shopScene)
+        view?.presentScene(shopScene, transition: reveal)
     }
     
     

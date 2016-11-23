@@ -41,8 +41,13 @@ class ShopScene: SKScene {
         
         backButton = SKSpriteNode(imageNamed: "backButton.png")
         backButton.position = CGPoint(x: 20, y: size.height - 30)
-        //        backButton.setScale(0.5)
         addChild(backButton)
+        
+//        if let appDomain = NSBundle.mainBundle().bundleIdentifier {
+//            NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
+//        }
+        
+        loadCarParts()
         
         addEngine()
         addEngineEquip()
@@ -51,6 +56,25 @@ class ShopScene: SKScene {
         addTurbo()
         addTurboEquip()
         loadCoins()
+    }
+    
+    func loadCarParts(){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let engineLevelLoaded = userDefaults.valueForKey("engine") {
+            engineLevel = engineLevelLoaded as! Int
+        }else {
+            engineLevel = 1
+        }
+        if let tireLevelLoaded = userDefaults.valueForKey("tire") {
+            tireLevel = tireLevelLoaded as! Int
+        }else{
+            tireLevel = 1
+        }
+        if let turboLevelLoaded = userDefaults.valueForKey("turbo") {
+            turboLevel = turboLevelLoaded as! Int
+        }else{
+            turboLevel = 1
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -70,6 +94,9 @@ class ShopScene: SKScene {
             }
             
             if engine.containsPoint(location){
+                if engineLevel == 4 {
+                    middleScreenMessage("Max Level Reached")
+                }
                 if engineLevel < 4 {
                     if hasEnoughMoney("engine", level: engineLevel) {
                         buyPart(engineLabel, level: engineLevel)
@@ -77,6 +104,9 @@ class ShopScene: SKScene {
                 }
                 
             } else if tire.containsPoint(location){
+                if tireLevel == 4 {
+                    middleScreenMessage("Max Level Reached")
+                }
                 if tireLevel < 4 {
                     if hasEnoughMoney("tire", level: tireLevel){
                         buyPart(tireLabel, level: tireLevel)
@@ -85,7 +115,7 @@ class ShopScene: SKScene {
                 
             } else if turbo.containsPoint(location){
                 if turboLevel == 4 {
-                    middleScreenMessage("Max Level Reached.")
+                    middleScreenMessage("Max Level Reached")
                 }
                 if turboLevel < 4{
                     if hasEnoughMoney("turbo", level: turboLevel){
@@ -113,6 +143,7 @@ class ShopScene: SKScene {
         if label.name == "engine"{
             engineLevel += 1
             label.text = "Engine \(engineLevel)"
+            userDefaults.setValue(engineLevel, forKey: "engine")
             if level < 3 {
                 engineNextLevelLabel.text = "Next: \(engineLevelPrice[level])"
             } else{
@@ -123,6 +154,7 @@ class ShopScene: SKScene {
         } else if label.name == "tire"{
             tireLevel += 1
             label.text = "Tires \(tireLevel)"
+            userDefaults.setValue(tireLevel, forKey: "tire")
             if level < 3 {
                 tireNextLevelLabel.text = "Next: \(tireLevelPrice[level])"
             } else {
@@ -133,6 +165,7 @@ class ShopScene: SKScene {
         } else{
             turboLevel += 1
             label.text = "Turbo \(turboLevel)"
+            userDefaults.setValue(turboLevel, forKey: "turbo")
             if level < 3{
                 turboNextLevelLabel.text = "Next: \(turboLevelPrice[level])"
             } else {
@@ -150,8 +183,9 @@ class ShopScene: SKScene {
     }
     
     func backToMenu(){
+        let reveal = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5)
         let menuScene = MainMenuScene(size: size)
-        view?.presentScene(menuScene)
+        view?.presentScene(menuScene, transition: reveal)
     }
     
     func hasEnoughMoney(part: String, level: Int) -> Bool{
