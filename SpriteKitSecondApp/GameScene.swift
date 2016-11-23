@@ -427,6 +427,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
+    
+    
     override func update(currentTime: CFTimeInterval) {
         backgroundScrollUpdate()
         timerUpdate()
@@ -436,7 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let ti = NSInteger(interval)
         
-        let seconds = ti % 60
+        let seconds = ti % 99
         let minutes = (ti / 60) % 60
         let hours = (ti / 3600)
         

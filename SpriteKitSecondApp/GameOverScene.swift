@@ -49,7 +49,11 @@ class GameOverScene: SKScene {
         label3.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         addChild(label3)
         
-        let message4 = "Total: \(coins+levelReward) Coins"
+        let totalCoins = coins+levelReward
+        
+        let message4 = "Total: \(totalCoins) Coins"
+        
+        addCoins(totalCoins)
         
         // 3
         let label4 = SKLabelNode(fontNamed: "Chalkduster")
@@ -70,6 +74,14 @@ class GameOverScene: SKScene {
             }
             ]))
         
+    }
+    
+    func addCoins(totalCoins: Int){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let previousCoins = userDefaults.valueForKey("coins")
+        let coinsSum = previousCoins as! Int + totalCoins
+        userDefaults.setValue(coinsSum, forKey: "coins")
+        userDefaults.synchronize() // don't forget this!!!!
     }
     
     // 6

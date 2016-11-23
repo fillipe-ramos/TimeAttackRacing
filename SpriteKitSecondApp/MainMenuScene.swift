@@ -65,9 +65,28 @@ class MainMenuScene: SKScene {
         addChild(label)
     }
     
+    func loadCoins(){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.fontSize = 12
+        label.fontColor = SKColor.blackColor()
+        label.horizontalAlignmentMode = .Left
+        label.position = CGPoint(x: 0, y: size.height - 20)
+        label.zPosition = 100
+
+        if let coins = userDefaults.valueForKey("coins") {
+            label.text = "Coins: \(coins)"
+        }
+        else {
+            label.text = "Coins: 0"
+        }
+        addChild(label)
+    }
+    
     func levelMenu(){
+        let reveal = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         let levelMenuScene = LevelMenuScene(size: size)
-        view?.presentScene(levelMenuScene)
+        view?.presentScene(levelMenuScene, transition: reveal)
     }
     
     func openShop(){
