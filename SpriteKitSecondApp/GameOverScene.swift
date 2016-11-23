@@ -78,9 +78,11 @@ class GameOverScene: SKScene {
     
     func addCoins(totalCoins: Int){
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let previousCoins = userDefaults.valueForKey("coins")
-        let coinsSum = previousCoins as! Int + totalCoins
-        userDefaults.setValue(coinsSum, forKey: "coins")
+        var coins = totalCoins
+        if let previousCoins = userDefaults.valueForKey("coins"){
+            coins += previousCoins as! Int
+        }
+        userDefaults.setValue(coins, forKey: "coins")
         userDefaults.synchronize() // don't forget this!!!!
     }
     

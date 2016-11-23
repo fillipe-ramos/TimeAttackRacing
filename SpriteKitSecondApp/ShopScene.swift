@@ -192,15 +192,15 @@ class ShopScene: SKScene {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let coins = userDefaults.valueForKey("coins") {
             if part == "engine"{
-                if coins as! Int > engineLevelPrice[level-1]{
+                if coins as! Int >= engineLevelPrice[level-1]{
                     return true
                 }
             } else if part == "tire"{
-                if coins as! Int > tireLevelPrice[level-1]{
+                if coins as! Int >= tireLevelPrice[level-1]{
                     return true
                 }
             } else{
-                if coins as! Int > turboLevelPrice[level-1]{
+                if coins as! Int >= turboLevelPrice[level-1]{
                     return true
                 }
             }

@@ -13,6 +13,7 @@ class MainMenuScene: SKScene {
     
     var playButton = SKSpriteNode()
     var shopButton = SKSpriteNode()
+    var title = SKLabelNode(fontNamed: "Chalkduster")
     
     override func didMoveToView(view: SKView) {
         
@@ -49,19 +50,26 @@ class MainMenuScene: SKScene {
                 openShop()
             }
             
+            if title.containsPoint(location){
+                if let appDomain = NSBundle.mainBundle().bundleIdentifier {
+                    NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
+                    middleScreenMessage("Variables reset")
+                }
+            }
+            
         }
     }
     
     func addTitle(){
         let message = "Time Attack Racing"
-        let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = message
-        label.fontSize = 32
-        label.fontColor = SKColor.blackColor()
-        label.horizontalAlignmentMode = .Center
-        label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
-        label.zPosition = 100
-        addChild(label)
+//        let label = SKLabelNode(fontNamed: "Chalkduster")
+        title.text = message
+        title.fontSize = 32
+        title.fontColor = SKColor.blackColor()
+        title.horizontalAlignmentMode = .Center
+        title.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
+        title.zPosition = 100
+        addChild(title)
     }
     
     func loadCoins(){
@@ -92,6 +100,37 @@ class MainMenuScene: SKScene {
         let reveal = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5)
         let shopScene = ShopScene(size: size)
         view?.presentScene(shopScene, transition: reveal)
+    }
+    
+    func middleScreenMessage(message: String){
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = message
+        label.fontSize = 24
+        label.fontColor = SKColor.blackColor()
+        label.horizontalAlignmentMode = .Center
+        label.position = CGPoint(x: frame.midX, y: frame.midY)
+        label.zPosition = 100
+        
+        addChild(label)
+        
+        label.runAction(SKAction.sequence([
+            SKAction.runBlock({
+                let scale : CGFloat = 1.3
+                let duration : NSTimeInterval = 1.0
+                let scaleAction = SKAction.scaleTo(scale, duration: duration)
+                let actionMove = SKAction.moveTo(CGPoint(x: self.frame.midX,  y: self.frame.midY+50), duration: NSTimeInterval(1))
+                let fadeAction = SKAction.fadeAlphaTo(0, duration: 1.0)
+                
+                let moveDisappear = SKAction.group([scaleAction, actionMove, fadeAction])
+                
+                // move to that position, after we get there, remove label from scene
+                label.runAction(moveDisappear, completion: {
+                    label.removeFromParent()
+                })
+                
+            })
+            ]))
+        
     }
     
     

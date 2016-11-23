@@ -75,6 +75,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var mainCarDestroyed = 0
     
+    
+    // roadSpeed - Speed of the road
+    // vehicleSpeed - Speed of NPCs going through the screen (lower = faster)
+    // vehicleChangeLaneSpeed = Speed the main car changes lanes (default = 0.2 || lower = faster )
+    
     init(size: CGSize, roadLanes_param: Int, levelReward_param: Int, time_param: NSTimeInterval,roadSpeed_param: CGFloat, vehicleSpeed_param: Double, background_param: String) {
         super.init(size: size)
 
@@ -117,33 +122,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func didMoveToView(view: SKView) {
-//        // 1 Add background
-//        addBackground()
-//        
-//        
-//        // 2 Add player on screen
-//        addPlayerWithLane(roadLanes)
-//        
-//        
-//        
-//        // 3 Add world
-//        showTimer()
-//        
-//        showPlayerCoins()
-//        
-//        
-//        physicsWorld.gravity = CGVectorMake(0, 0)
-//        physicsWorld.contactDelegate = self
-//        runAction(SKAction.repeatActionForever(
-//            SKAction.sequence([
-//                SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
-//                SKAction.waitForDuration(1)
-//            ])
-//        ))
-//        
-//    }
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
