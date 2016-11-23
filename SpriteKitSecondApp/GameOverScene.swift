@@ -11,12 +11,16 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    init(size: CGSize, won:Bool, coins: Int, levelReward: Int) {
+    init(size: CGSize, won:Bool, coins: Int, levelReward: Int, currentLevel: String) {
         
         super.init(size: size)
         
         // 1
         backgroundColor = SKColor.lightGrayColor()
+        
+        if won{
+            addCompletedLevel(currentLevel)
+        }
         
         // 2
         let message = won ? "You Won!" : "You Lose :["
@@ -84,6 +88,18 @@ class GameOverScene: SKScene {
         }
         userDefaults.setValue(coins, forKey: "coins")
         userDefaults.synchronize() // don't forget this!!!!
+    }
+    
+    func addCompletedLevel(currentLevel: String){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if userDefaults.valueForKey(currentLevel) == nil{
+            userDefaults.setValue(true, forKey: currentLevel)
+            userDefaults.synchronize() // don't forget this!!!!
+            NSLog("Criado")
+        } else {
+            NSLog("Nao criado")
+        }
+        
     }
     
     // 6

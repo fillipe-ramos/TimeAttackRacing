@@ -41,11 +41,12 @@ extension CGPoint {
 }
 
 struct PhysicsCategory {
-    static let None      : UInt32 = 0
-    static let All       : UInt32 = UInt32.max
-    static let MainCar   : UInt32 = 0x1 << 1      // 1
-    static let Vehicle   : UInt32 = 0x1 << 2      // 2
-    static let Coin      : UInt32 = 0x1 << 3      // 3
+    static let None       : UInt32 = 0
+    static let All        : UInt32 = UInt32.max
+    static let MainCar    : UInt32 = 0x1 << 1      // 1
+    static let Vehicle    : UInt32 = 0x1 << 3      // 2
+    static let Coin       : UInt32 = 0x1 << 4      // 3
+    static let FinishLine : UInt32 = 0x1 << 5      // 4
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -58,6 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var vehicleLane = 0
     var playerCoins = 0
+    var vehicleActionForever = SKSpriteNode()
     var actualSpeed = CGFloat()
     var vehicle = SKSpriteNode()
     var background = SKSpriteNode()
@@ -66,22 +68,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var vehicleSpeed = 3.0
     var vehicleChangeLaneSpeed = 0.3
     var roadLanes = 4
-    var levelReward = 60
+    var levelReward = 0
     var carLane = 2
+    let finishLine = SKSpriteNode(imageNamed: "finishLine")
     var timerLabel = SKLabelNode(fontNamed: "Chalkduster")
-    var time = NSTimeInterval(3600)
+    var time = NSTimeInterval(0)
     var coinsLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var currentLevel = ""
+    var finishTime = NSTimeInterval(0)
+    var mainCarCollided = false
     
-    
-    var mainCarDestroyed = 0
     
     
     // roadSpeed - Speed of the road
     // vehicleSpeed - Speed of NPCs going through the screen (lower = faster)
     // vehicleChangeLaneSpeed = Speed the main car changes lanes (default = 0.2 || lower = faster )
     
-    init(size: CGSize, roadLanes_param: Int, levelReward_param: Int, time_param: NSTimeInterval,roadSpeed_param: CGFloat, vehicleSpeed_param: Double, background_param: String) {
+    init(size: CGSize, roadLanes_param: Int, levelReward_param: Int, time_param: NSTimeInterval,roadSpeed_param: CGFloat, vehicleSpeed_param: Double, background_param: String, currentLevel_param: String, finishTime_param: NSTimeInterval) {
         super.init(size: size)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
 
 
         background = SKSpriteNode(imageNamed: background_param)
@@ -89,11 +94,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         roadSpeed = roadSpeed_param
         vehicleSpeed = vehicleSpeed_param
         roadLanes = roadLanes_param
-        levelReward = levelReward_param
+        finishTime = finishTime_param
+        if userDefaults.valueForKey(currentLevel_param) == nil{
+            levelReward = levelReward_param
+        }
         time = NSTimeInterval(time_param)
+        currentLevel = currentLevel_param
         
         // 1 Add background
         addBackground()
+        drawFinishLine()
         
         
         // 2 Add player on screen
@@ -109,12 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
-        runAction(SKAction.repeatActionForever(
-            SKAction.sequence([
-                SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
-                SKAction.waitForDuration(1)
-                ])
-            ))
+        addNPCAction()
 
         
     }
@@ -131,14 +136,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
+    func addNPCAction(){
+        vehicleActionForever.runAction(SKAction.repeatActionForever(
+            SKAction.sequence([
+                SKAction.runBlock({self.addVehicleWithLanes(self.roadLanes)}),
+                SKAction.waitForDuration(1)
+                ])
+            ))
+        addChild(vehicleActionForever)
+    }
     func addBackground(){
         background.anchorPoint = CGPointZero
+        background.name = "background"
         background.position = CGPoint(x: 0,y: 0)
         background.size = CGSize(width: frame.size.width, height: frame.size.height)
         background.zPosition = 0
         addChild(background)
         
         background2.anchorPoint = CGPointZero
+        background2.name = "background"
         background2.position = CGPoint(x: 0, y: background.size.height)
         background2.size = CGSize(width: frame.size.width, height: frame.size.height)
         background2.zPosition = 0
@@ -211,8 +227,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vehicle.position = CGPoint(x: actualX, y: size.height + vehicle.size.height/2)
         
         // Add the vehicle to the scene
+        vehicle.name = "NPC"
         vehicle.setScale(0.50)
-        vehicle.zPosition = 1
+        vehicle.zPosition = 2
         addChild(vehicle)
         
         vehicle.physicsBody = SKPhysicsBody(rectangleOfSize: vehicle.size) // 1
@@ -318,11 +335,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func mainCarDidCollideWithVehicle(vehicle:SKSpriteNode, mainCar:SKSpriteNode) {
         vehicle.removeFromParent()
         mainCar.removeFromParent()
-        mainCarDestroyed += 1
-        if (mainCarDestroyed > 0) {
-            addPlayerWithLane(roadLanes)
-        }
+        addPlayerWithLane(roadLanes)
+        mainCarCollided = true
+//        addNPCAction()
+    }
+    
+    func slowDown(){
+        // roadSpeed - Speed of the road (higher = faster) CGFloat()
+        // vehicleSpeed - Speed of NPCs going through the screen (lower = faster) int
+        // vehicleChangeLaneSpeed = Speed the main car changes lanes (default = 0.2 || lower = faster ) Int
         
+        let roadSpeed_aux = roadSpeed
+        let vehicleSpeed_aux = vehicleSpeed
+        
+        var i = 0.1
+        while CGFloat(i) < roadSpeed_aux {
+            roadSpeed = CGFloat(i)
+            i = i + 0.01
+        }
+        var l = 5.0
+        while l > vehicleSpeed_aux {
+            vehicleSpeed = l
+            l = l - 0.0001
+        }
+        roadSpeed = roadSpeed_aux
+        vehicleSpeed = vehicleSpeed_aux
+        
+        mainCarCollided = false
     }
     
     func mainCarDidCollideWithCoin(coin:SKSpriteNode) {
@@ -362,6 +401,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if ((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Coin != 0)) {
             mainCarDidCollideWithCoin(secondBody.node as! SKSpriteNode)
+        } else if((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.FinishLine != 0)) {
+            mainCarDidCollidewithFinishLine()
         }
         
         
@@ -378,13 +420,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(timerLabel)
     }
     
+    func drawFinishLine(){
+        finishLine.anchorPoint = CGPointZero
+        finishLine.position = CGPoint(x: 0, y: size.height + finishLine.size.height/2)
+        finishLine.size = CGSize(width: frame.size.width, height: finishLine.size.height)
+        finishLine.zPosition = 1
+        finishLine.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: finishLine.size.width, height: finishLine.size.height)) // 1
+        finishLine.physicsBody?.dynamic = true // 2
+        finishLine.physicsBody?.categoryBitMask = PhysicsCategory.FinishLine // 3
+        finishLine.physicsBody?.contactTestBitMask = PhysicsCategory.MainCar // 4
+        finishLine.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+        
+        addChild(finishLine)
+    }
+    
+    func mainCarDidCollidewithFinishLine(){
+        let loseAction = SKAction.runBlock({
+            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+            let gameOverScene = GameOverScene(size: self.size, won: true, coins: self.playerCoins, levelReward: self.levelReward, currentLevel: self.currentLevel)
+            self.view?.presentScene(gameOverScene, transition: reveal)
+        })
+        let actionMoveDone = SKAction.removeFromParent()
+        
+        vehicle.runAction(SKAction.sequence([loseAction, actionMoveDone]))
+    }
+    
+    func finishTimeUpdade(){
+        finishTime -= 1
+        if finishTime <= 0 {
+            finishLineUpdate()
+        }
+    }
+    
+    func finishLineUpdate(){
+        finishLine.position = CGPointMake(finishLine.position.x, finishLine.position.y - roadSpeed)
+    }
+
     func timerUpdate(){
         time -= 1
         timerLabel.text="\(stringFromTimeInterval(time))"
-        if time < 0 {
+        if time <= 0 {
             let loseAction = SKAction.runBlock({
                 let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-                let gameOverScene = GameOverScene(size: self.size, won: false, coins: self.playerCoins, levelReward: self.levelReward)
+                let gameOverScene = GameOverScene(size: self.size, won: false, coins: self.playerCoins, levelReward: self.levelReward, currentLevel: self.currentLevel)
                 self.view?.presentScene(gameOverScene, transition: reveal)
                 })
             let actionMoveDone = SKAction.removeFromParent()
@@ -411,13 +489,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         backgroundScrollUpdate()
         timerUpdate()
+        finishTimeUpdade()
+        if mainCarCollided {
+            slowDown()
+        }
     }
     
     func stringFromTimeInterval(interval:NSTimeInterval) -> NSString {
         
         let ti = NSInteger(interval)
         
-        let seconds = ti % 99
+        let seconds = ti % 60
         let minutes = (ti / 60) % 60
         let hours = (ti / 3600)
         

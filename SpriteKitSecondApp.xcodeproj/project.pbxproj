@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A4B479C1DE629AC005E54A2 /* finishLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4B479B1DE629AC005E54A2 /* finishLine.png */; };
 		323FCDAD1DC6CC4400BF274E /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 323FCDAC1DC6CC4400BF274E /* background.png */; };
 		3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3242DC8A1DCA6A2900FF8FBA /* coin.atlas */; };
 		3242DC8F1DCA974100FF8FBA /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242DC8E1DCA974100FF8FBA /* MainMenuScene.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A4B479B1DE629AC005E54A2 /* finishLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finishLine.png; sourceTree = "<group>"; };
 		323FCDAC1DC6CC4400BF274E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		3242DC8A1DCA6A2900FF8FBA /* coin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = coin.atlas; sourceTree = "<group>"; };
 		3242DC8E1DCA974100FF8FBA /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		32CB2A021D88B9EE0019DE0B /* SpriteKitSecondAppResources */ = {
 			isa = PBXGroup;
 			children = (
+				0A4B479B1DE629AC005E54A2 /* finishLine.png */,
 				32A0027E1DCA595100D5DDB7 /* background_2.png */,
 				32A0027F1DCA595100D5DDB7 /* background_3.png */,
 				32A002801DCA595100D5DDB7 /* background_4.png */,
@@ -202,6 +205,7 @@
 				328D58041D9C2B32000319DC /* police.atlas in Resources */,
 				328D58021D9C2B32000319DC /* ambulance.atlas in Resources */,
 				32CB29F61D88B11C0019DE0B /* Assets.xcassets in Resources */,
+				0A4B479C1DE629AC005E54A2 /* finishLine.png in Resources */,
 				3242DC8B1DCA6A2900FF8FBA /* coin.atlas in Resources */,
 				32CB2A081D88B9EE0019DE0B /* pew-pew-lei.caf in Resources */,
 				32CB29F41D88B11C0019DE0B /* Main.storyboard in Resources */,

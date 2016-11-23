@@ -128,10 +128,14 @@ class ShopScene: SKScene {
     }
     
     func changeEquipLabel(label: SKLabelNode){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+
         if label.text == "Equip"{
             label.text = "Unequip"
+            userDefaults.setValue(false, forKey: "\(label.name)")
         } else {
             label.text = "Equip"
+            userDefaults.setValue(true, forKey: "\(label.name)")
         }
     }
     
@@ -290,6 +294,7 @@ class ShopScene: SKScene {
         engineEquip.fillColor = SKColor.whiteColor()
         engineEquip.zPosition = 1
         engineEquipLabel.text = "Equip"
+        engineEquipLabel.name = "engineLabel"
         engineEquipLabel.fontSize = 18
         engineEquipLabel.fontColor = SKColor.blackColor()
         engineEquipLabel.zPosition = 2
@@ -330,6 +335,7 @@ class ShopScene: SKScene {
         tireEquip.fillColor = SKColor.whiteColor()
         tireEquip.zPosition = 1
         tireEquipLabel.text = "Equip"
+        tireEquipLabel.name = "tireLabel"
         tireEquipLabel.fontSize = 18
         tireEquipLabel.fontColor = SKColor.blackColor()
         tireEquipLabel.zPosition = 2
@@ -369,6 +375,7 @@ class ShopScene: SKScene {
         turboEquip.fillColor = SKColor.whiteColor()
         turboEquip.zPosition = 1
         turboEquipLabel.text = "Equip"
+        turboEquipLabel.name = "turboLabel"
         turboEquipLabel.fontSize = 18
         turboEquipLabel.fontColor = SKColor.blackColor()
         turboEquipLabel.zPosition = 2
