@@ -19,53 +19,12 @@ class GameOverScene: SKScene {
         backgroundColor = SKColor.lightGrayColor()
         
         if won{
+            playerResult(won, coins: coins, levelReward: levelReward)
             addCompletedLevel(currentLevel)
+        } else{
+            playerResult(won, coins: 0, levelReward: 0)
         }
-        
-        // 2
-        let message = won ? "You Won!" : "You Lose :["
-        
-        // 3
-        let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = message
-        label.fontSize = 40
-        label.fontColor = SKColor.blackColor()
-        label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
-        addChild(label)
-        
-        let message2 = "Level Reward: \(levelReward)"
-        
-        // 3
-        let label2 = SKLabelNode(fontNamed: "Chalkduster")
-        label2.text = message2
-        label2.fontSize = 24
-        label2.fontColor = SKColor.blackColor()
-        label2.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 100)
-        addChild(label2)
-        
-        let message3 = "Catched Coins: \(coins)"
-        
-        // 3
-        let label3 = SKLabelNode(fontNamed: "Chalkduster")
-        label3.text = message3
-        label3.fontSize = 24
-        label3.fontColor = SKColor.blackColor()
-        label3.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
-        addChild(label3)
-        
-        let totalCoins = coins+levelReward
-        
-        let message4 = "Total: \(totalCoins) Coins"
-        
-        addCoins(totalCoins)
-        
-        // 3
-        let label4 = SKLabelNode(fontNamed: "Chalkduster")
-        label4.text = message4
-        label4.fontSize = 24
-        label4.fontColor = SKColor.blackColor()
-        label4.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) - 100)
-        addChild(label4)
+
         
         // 4
         runAction(SKAction.sequence([
@@ -100,6 +59,57 @@ class GameOverScene: SKScene {
             NSLog("Nao criado")
         }
         
+    }
+    
+    func playerResult(won: Bool, coins: Int, levelReward: Int){
+        let message = won ? "You Won!" : "You Lose :["
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = message
+        label.fontSize = 40
+        label.fontColor = SKColor.blackColor()
+        addChild(label)
+        
+        if won {
+            // 3
+            label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 200)
+            
+            let message2 = "Level Reward: \(levelReward)"
+            
+            // 3
+            let label2 = SKLabelNode(fontNamed: "Chalkduster")
+            label2.text = message2
+            label2.fontSize = 24
+            label2.fontColor = SKColor.blackColor()
+            label2.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) + 100)
+            addChild(label2)
+            
+            let message3 = "Catched Coins: \(coins)"
+            
+            // 3
+            let label3 = SKLabelNode(fontNamed: "Chalkduster")
+            label3.text = message3
+            label3.fontSize = 24
+            label3.fontColor = SKColor.blackColor()
+            label3.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+            addChild(label3)
+            
+            let totalCoins = coins+levelReward
+            
+            let message4 = "Total: \(totalCoins) Coins"
+            
+            addCoins(totalCoins)
+
+            
+            // 3
+            let label4 = SKLabelNode(fontNamed: "Chalkduster")
+            label4.text = message4
+            label4.fontSize = 24
+            label4.fontColor = SKColor.blackColor()
+            label4.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame) - 100)
+            addChild(label4)
+        } else{
+            label.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+        }
     }
     
     // 6

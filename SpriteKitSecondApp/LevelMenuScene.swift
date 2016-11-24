@@ -258,25 +258,25 @@ class LevelMenuScene: SKScene {
             }
             
             if levelOne.containsPoint(location){
-                beginGame(2, levelReward_param: 10, time_param: 600,roadSpeed_param: 20, vehicleSpeed_param: 5, background_param: "background_2", currentLevel_param: "levelOne", finishTime_param: 60)
+                beginGame(2, levelReward_param: 10, time_param: 1200,roadSpeed_param: 6, vehicleSpeed_param: 3, background_param: "background_2", currentLevel_param: "levelOne", finishTime_param: 800)
             } else if levelTwo.containsPoint(location){
-                beginGame(3, levelReward_param: 15, time_param: 600,roadSpeed_param: 6, vehicleSpeed_param: 2.8, background_param: "background_3", currentLevel_param: "levelTwo", finishTime_param: 600)
+                beginGame(3, levelReward_param: 15, time_param: 1300,roadSpeed_param: 6, vehicleSpeed_param: 2.8, background_param: "background_3", currentLevel_param: "levelTwo", finishTime_param: 1000)
             } else if levelThree.containsPoint(location){
-                beginGame(4, levelReward_param: 30, time_param: 600,roadSpeed_param: 7, vehicleSpeed_param: 2.6, background_param: "background_4", currentLevel_param: "levelThree", finishTime_param: 600)
+                beginGame(4, levelReward_param: 30, time_param: 1600,roadSpeed_param: 7, vehicleSpeed_param: 2.6, background_param: "background_4", currentLevel_param: "levelThree", finishTime_param: 1200)
             } else if levelFour.containsPoint(location){
-                beginGame(2, levelReward_param: 50, time_param: 600,roadSpeed_param: 8, vehicleSpeed_param: 2.4, background_param: "background_2", currentLevel_param: "levelFour", finishTime_param: 600)
+                beginGame(2, levelReward_param: 50, time_param: 1800,roadSpeed_param: 8, vehicleSpeed_param: 2.4, background_param: "background_2", currentLevel_param: "levelFour", finishTime_param: 1500)
             } else if levelFive.containsPoint(location){
-                beginGame(4, levelReward_param: 75, time_param: 600,roadSpeed_param: 9, vehicleSpeed_param: 2.2, background_param: "background_4", currentLevel_param: "levelFive", finishTime_param: 600)
+                beginGame(4, levelReward_param: 75, time_param: 2000,roadSpeed_param: 9, vehicleSpeed_param: 2.2, background_param: "background_4", currentLevel_param: "levelFive", finishTime_param: 1700)
             } else if levelSix.containsPoint(location){
-                beginGame(3, levelReward_param: 120, time_param: 600,roadSpeed_param: 10, vehicleSpeed_param: 2, background_param: "background_3", currentLevel_param: "levelSix", finishTime_param: 600)
+                beginGame(3, levelReward_param: 120, time_param: 2300,roadSpeed_param: 10, vehicleSpeed_param: 2, background_param: "background_3", currentLevel_param: "levelSix", finishTime_param: 2000)
             } else if levelSeven.containsPoint(location){
-                beginGame(4, levelReward_param: 155, time_param: 600,roadSpeed_param: 11, vehicleSpeed_param: 1.8, background_param: "background_4", currentLevel_param: "levelSeven", finishTime_param: 600)
+                beginGame(4, levelReward_param: 155, time_param: 2600,roadSpeed_param: 11, vehicleSpeed_param: 1.8, background_param: "background_4", currentLevel_param: "levelSeven", finishTime_param: 2300)
             } else if levelEight.containsPoint(location){
-                beginGame(2, levelReward_param: 200, time_param: 600,roadSpeed_param: 12, vehicleSpeed_param: 1.6, background_param: "background_2", currentLevel_param: "levelEight", finishTime_param: 600)
+                beginGame(2, levelReward_param: 200, time_param: 2900,roadSpeed_param: 12, vehicleSpeed_param: 1.6, background_param: "background_2", currentLevel_param: "levelEight", finishTime_param: 2600)
             } else if levelNine.containsPoint(location){
-                beginGame(3, levelReward_param: 250, time_param: 600,roadSpeed_param: 15, vehicleSpeed_param: 1.4, background_param: "background_3", currentLevel_param: "levelNine", finishTime_param: 600)
+                beginGame(3, levelReward_param: 250, time_param: 3300,roadSpeed_param: 15, vehicleSpeed_param: 1.4, background_param: "background_3", currentLevel_param: "levelNine", finishTime_param: 3000)
             } else if levelTen.containsPoint(location){
-                beginGame(4, levelReward_param: 300, time_param: 600,roadSpeed_param: 20, vehicleSpeed_param: 1.2, background_param: "background_4", currentLevel_param: "levelTen", finishTime_param: 600)
+                beginGame(4, levelReward_param: 300, time_param: 3600,roadSpeed_param: 20, vehicleSpeed_param: 1.2, background_param: "background_4", currentLevel_param: "levelTen", finishTime_param: 3300)
             }
         }
     }

@@ -44,6 +44,7 @@ struct PhysicsCategory {
     static let None       : UInt32 = 0
     static let All        : UInt32 = UInt32.max
     static let MainCar    : UInt32 = 0x1 << 1      // 1
+    static let MainCarCollided    : UInt32 = 0x1 << 2      // 1
     static let Vehicle    : UInt32 = 0x1 << 3      // 2
     static let Coin       : UInt32 = 0x1 << 4      // 3
     static let FinishLine : UInt32 = 0x1 << 5      // 4
@@ -94,7 +95,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         roadSpeed = roadSpeed_param
         vehicleSpeed = vehicleSpeed_param
         roadLanes = roadLanes_param
-        finishTime = finishTime_param
+        if let engineLevel = userDefaults.valueForKey("engine"){
+            finishTime = finishTime_param - (engineLevel as! Double)*140
+        } else{
+            finishTime = finishTime_param
+        }
         if userDefaults.valueForKey(currentLevel_param) == nil{
             levelReward = levelReward_param
         }
@@ -115,7 +120,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         showTimer()
         
         showPlayerCoins()
-        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -176,9 +180,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.zPosition = 1
         addChild(player)
         
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size) // 1
-        player.physicsBody?.dynamic = true // 2
-        player.physicsBody?.categoryBitMask = PhysicsCategory.MainCar // 3
+        let fadeIn = SKAction.fadeInWithDuration(0.2)
+        let fadeOut = SKAction.fadeOutWithDuration(0.2)
+        
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: self.player.size) // 1
+        player.physicsBody?.dynamic = false // 2
+        player.physicsBody?.categoryBitMask = PhysicsCategory.MainCarCollided // 3
+        
+        
+        player.runAction(SKAction.sequence([fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn]), completion: {
+            self.player.physicsBody?.categoryBitMask = PhysicsCategory.MainCar // 3
+        })
     }
     
     
@@ -336,8 +348,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vehicle.removeFromParent()
         mainCar.removeFromParent()
         addPlayerWithLane(roadLanes)
-        mainCarCollided = true
-//        addNPCAction()
+        finishTime += 120
+//        mainCarCollided = true
     }
     
     func slowDown(){
@@ -352,11 +364,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         while CGFloat(i) < roadSpeed_aux {
             roadSpeed = CGFloat(i)
             i = i + 0.01
+//            NSLog("RoadSpeed: \(roadSpeed)")
         }
         var l = 5.0
         while l > vehicleSpeed_aux {
             vehicleSpeed = l
             l = l - 0.0001
+//            NSLog("RoadSpeed: \(vehicleSpeed)")
         }
         roadSpeed = roadSpeed_aux
         vehicleSpeed = vehicleSpeed_aux
@@ -394,6 +408,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        switch contactMask {
+            
+            case PhysicsCategory.FinishLine | PhysicsCategory.MainCar:
+                mainCarDidCollidewithFinishLine()
+                NSLog("MainCar")
+            case PhysicsCategory.MainCarCollided | PhysicsCategory.FinishLine:
+                mainCarDidCollidewithFinishLine()
+                NSLog("MainCarCollided")
+            default:
+                NSLog("Outra coisa")
+        }
+        
         // 2
         if ((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Vehicle != 0)) {
@@ -401,11 +429,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if ((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Coin != 0)) {
             mainCarDidCollideWithCoin(secondBody.node as! SKSpriteNode)
-        } else if((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.FinishLine != 0)) {
-            mainCarDidCollidewithFinishLine()
         }
-        
+//        } else if((firstBody.categoryBitMask & PhysicsCategory.MainCar != 0) &&
+//            (secondBody.categoryBitMask & PhysicsCategory.FinishLine != 0)) {
+//            mainCarDidCollidewithFinishLine()
+//        }
         
     }
     
@@ -421,14 +449,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func drawFinishLine(){
-        finishLine.anchorPoint = CGPointZero
-        finishLine.position = CGPoint(x: 0, y: size.height + finishLine.size.height/2)
+        finishLine.position = CGPoint(x: frame.midX, y: size.height + finishLine.size.height)
         finishLine.size = CGSize(width: frame.size.width, height: finishLine.size.height)
         finishLine.zPosition = 1
-        finishLine.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: finishLine.size.width, height: finishLine.size.height)) // 1
+        finishLine.physicsBody = SKPhysicsBody(rectangleOfSize: finishLine.size) // 1
         finishLine.physicsBody?.dynamic = true // 2
         finishLine.physicsBody?.categoryBitMask = PhysicsCategory.FinishLine // 3
-        finishLine.physicsBody?.contactTestBitMask = PhysicsCategory.MainCar // 4
+        finishLine.physicsBody?.contactTestBitMask = PhysicsCategory.MainCar | PhysicsCategory.MainCarCollided // 4
         finishLine.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
         
         addChild(finishLine)
@@ -447,6 +474,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func finishTimeUpdade(){
         finishTime -= 1
+        NSLog("\(finishTime)")
         if finishTime <= 0 {
             finishLineUpdate()
         }
